@@ -3,13 +3,13 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from statsmodels.tsa.arima_model import ARMA
+from statsmodels.tsa.arima.model import ARIMA
 import warnings
 from itertools import product
 from datetime import datetime
 warnings.filterwarnings('ignore')
 # 数据加载
-df = pd.read_csv('./bitcoin_2012-01-01_to_2018-10-31.csv')
+df = pd.read_csv(r'D:\workspace\bitcoin\bitcoin_2012-01-01_to_2018-10-31.csv')
 # 将时间作为df的索引
 df.Timestamp = pd.to_datetime(df.Timestamp)
 df.index = df.Timestamp
@@ -46,7 +46,7 @@ results = []
 best_aic = float("inf") # 正无穷
 for param in parameters_list:
     try:
-        model = ARMA(df_month.Weighted_Price,order=(param[0], param[1])).fit()
+        model = ARIMA(df_month.Weighted_Price,order=(param[0], 1, param[1])).fit()
     except ValueError:
         print('参数错误:', param)
         continue
